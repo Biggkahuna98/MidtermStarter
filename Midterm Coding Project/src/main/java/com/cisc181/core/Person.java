@@ -61,9 +61,14 @@ public abstract class Person implements java.io.Serializable {
 		return address;
 	}
 
-	public void setPhone(String newPhone_number) {
+	public void setPhone(String newPhone_number) throws PersonException {
+		String regex = "^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(newPhone_number);
+		
+		if (!matcher.matches())
+			throw new PersonException(this, "Bad Phone Number");
 		phone_number = newPhone_number;
-	
 	}
 
 	public String getPhone() {
